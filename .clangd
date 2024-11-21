@@ -45,6 +45,7 @@ CompileFlags:
     - "-ftemplate-backtrace-limit=0"
   Remove:
     - "-stdpar*"
+    - "-e1000"
     # strip CUDA fatbin args
     - "-Xfatbin*"
     - "-gpu=*"
