@@ -26,6 +26,25 @@
 #include <nvexec/repeat_n.cuh>
 #else
 #include <exec/repeat_n.hpp>
+
+namespace nvexec {
+    struct stream_receiver_base {
+        using receiver_concept = stdexec::receiver_t;
+    };
+
+    struct stream_sender_base {
+        using sender_concept = stdexec::sender_t;
+    };
+
+    namespace detail {
+        struct stream_op_state_base { };
+    } // namespace detail
+
+    inline bool is_on_gpu() {
+        return false;
+    }
+} // namespace nvexec
+
 #endif
 
 #include <optional>
@@ -55,7 +74,11 @@ auto maxwell_eqs_snr(
   return ex::just()
        | exec::on(
            computer,
-           repeat_n(
+#if defined(_NVHPC_CUDA) || defined(__CUDACC__)
+           nvexec::repeat_n(
+#else
+           exec::repeat_n(
+#endif
              ex::bulk(accessor.cells, update_h(accessor))
                | ex::bulk(accessor.cells, update_e(time, dt, accessor)), n_iterations))
        | ex::then(dump_vtk(write_results, accessor));

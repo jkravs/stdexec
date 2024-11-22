@@ -75,28 +75,28 @@ endfunction()
 ###############################################################################
 # CPU examples
 ###############################################################################
-set(nvexec_cpu_examples
-    " example.nvexec.clangd_helper : _clangd_helper_file.cpp"
-    "example.nvexec.maxwell_cpu_mt : maxwell_cpu_mt.cpp"
-    "example.nvexec.maxwell_cpu_st : maxwell_cpu_st.cpp"
-)
-
-function(def_cpu_example example)
-    split(${example} target source)
-    add_executable(${target} ${source})
-    set_executable_output_name(${target})
-    target_link_libraries(${target}
-        PRIVATE nvexec_example
-                stdpar_multicore
-                STDEXEC::stdexec
-                stdexec_executable_flags
-    )
-    set_source_files_properties(${source} PROPERTIES LANGUAGE ${_lang_cxx})
-endfunction()
-
-foreach(example ${nvexec_cpu_examples})
-    def_cpu_example(${example})
-endforeach()
+#set(nvexec_cpu_examples
+#    " example.nvexec.clangd_helper : _clangd_helper_file.cpp"
+#    "example.nvexec.maxwell_cpu_mt : maxwell_cpu_mt.cpp"
+#    "example.nvexec.maxwell_cpu_st : maxwell_cpu_st.cpp"
+#)
+#
+#function(def_cpu_example example)
+#    split(${example} target source)
+#    add_executable(${target} ${source})
+#    set_executable_output_name(${target})
+#    target_link_libraries(${target}
+#        PRIVATE nvexec_example
+#                stdpar_multicore
+#                STDEXEC::stdexec
+#                stdexec_executable_flags
+#    )
+#    set_source_files_properties(${source} PROPERTIES LANGUAGE ${_lang_cxx})
+#endfunction()
+#
+#foreach(example ${nvexec_cpu_examples})
+#    def_cpu_example(${example})
+#endforeach()
 
 ###############################################################################
 # GPU examples
